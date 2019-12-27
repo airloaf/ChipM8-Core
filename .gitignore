@@ -31,5 +31,12 @@
 *.out
 *.app
 
+# Vim swap files
+*.swp
+.*.swp
+
+# Vim YCM plugin
+.ycm*
+
 # Libraries
 libs/*
