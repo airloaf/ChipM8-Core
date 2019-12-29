@@ -5,6 +5,8 @@
  * Interface for readable devices on the bus.
  *
  **/
+#pragma once
+
 #include <cstdint>
 
 class ReadableDevice{

@@ -6,6 +6,8 @@
  * the Chip-8 bus.
  **/
 
+#pragma once
+
 #include "../Bus/ReadableDevice.h"
 #include "../Bus/WritableDevice.h"
 

@@ -5,6 +5,8 @@
  * Interface for writable devices on the bus.
  *
  **/
+#pragma once
+
 #include <cstdint>
 
 class WritableDevice{

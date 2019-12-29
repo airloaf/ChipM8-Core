@@ -1,7 +1,10 @@
 /**
+ * Author: Vikram Singh
+ * File: Bus.h
  *
- *
+ * Interface for ChipM8 Bus
  **/
+#pragma once
 
 #include "ReadableDevice.h"
 #include "WritableDevice.h"

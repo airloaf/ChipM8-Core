@@ -3,7 +3,7 @@ CC := g++
 CHIPM8_INCLUDE := include
 BOOST_LIBRARY := libs/boost_1_72_0
 
-TESTS_SRC := tests/Memory/Reading.cpp
+TESTS_SRC := tests/Memory/Reading.cpp tests/Bus/RegisterMemory.cpp
 
 bin/Chip8.a: objs/Bus.o objs/Memory.o
 	ar rvs $@ $^
