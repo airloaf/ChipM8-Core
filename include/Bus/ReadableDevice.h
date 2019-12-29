@@ -18,5 +18,5 @@ class ReadableDevice{
          * @return 8 bits (1 byte) from the requested
          * address.
          **/
-        virtual uint8_t read(uint8_t address)=0;
+        virtual uint8_t read(std::size_t address)=0;
 };

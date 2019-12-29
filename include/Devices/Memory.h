@@ -30,7 +30,7 @@ class Memory{
          *
          * @return 8 bits (1 byte) from the memory bank
          **/
-        uint8_t read(uint8_t address);
+        uint8_t read(std::size_t address);
 
         /**
          * Override of WritableDevice::write
@@ -41,5 +41,5 @@ class Memory{
          * @param value - the value to write into
          * the memory bank
          **/
-        void write(uint8_t address, uint8_t value);
+        void write(std::size_t address, uint8_t value);
 };

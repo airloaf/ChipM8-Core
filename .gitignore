@@ -40,3 +40,8 @@
 
 # Libraries
 libs/*
+
+# Outputs
+*.o
+*.a
+test

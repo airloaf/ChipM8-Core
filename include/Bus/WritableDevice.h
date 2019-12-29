@@ -17,5 +17,5 @@ class WritableDevice{
          * @param value - The value to write into
          * the device
          **/
-        virtual void write(uint8_t address, uint8_t value)=0;
+        virtual void write(std::size_t address, uint8_t value)=0;
 };
