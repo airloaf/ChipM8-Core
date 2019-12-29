@@ -42,4 +42,8 @@ class Memory{
          * the memory bank
          **/
         void write(std::size_t address, uint8_t value);
+
+    private:
+        std::size_t mMemorySize; // Memory size
+        uint8_t *mMemoryStore;
 };
