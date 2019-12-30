@@ -11,12 +11,14 @@
 
 #include <cstdint>
 #include <utility>
+#include <list>
 
 typedef std::pair<std::size_t, std::size_t> AddressRange;
+typedef std::pair<ReadableDevice *, AddressRange> RegisteredReadableDevice;
+typedef std::pair<WritableDevice *, AddressRange> RegisteredWritableDevice;
 
 class Bus{
     public:
-
         /**
          * Creates a bus with a given addressable length
          *
@@ -59,4 +61,11 @@ class Bus{
          * @param value - the value to write at the given address
          **/
         void write(std::size_t address, uint8_t value);
+    private:
+        // The addressable range of the bus
+        std::size_t mAddressableRange;
+
+        // Lists of readable and writable devices
+        std::list<RegisteredReadableDevice> mReadableDeviceList;
+        std::list<RegisteredWritableDevice> mWritableDeviceList;
 };

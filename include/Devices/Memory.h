@@ -11,7 +11,7 @@
 #include "../Bus/ReadableDevice.h"
 #include "../Bus/WritableDevice.h"
 
-class Memory{
+class Memory: public ReadableDevice, WritableDevice{
 
     public:
 

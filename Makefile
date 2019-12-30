@@ -14,8 +14,8 @@ objs/Bus.o: src/Bus/Bus.cpp
 objs/Memory.o: src/Devices/Memory.cpp
 	$(CC) -I ${CHIPM8_INCLUDE} -c $^ -o $@
 
-test: tests/TestRunner.cpp bin/Chip8.a
-	$(CC) -I ${BOOST_LIBRARY} -I ${CHIPM8_INCLUDE} $(TESTS_SRC) $^ -o $@
+test: ${TESTS_SRC} tests/TestRunner.cpp bin/Chip8.a
+	$(CC) -I ${BOOST_LIBRARY} -I ${CHIPM8_INCLUDE} $^ -o $@
 	./test
 
 .PHONY: clean
