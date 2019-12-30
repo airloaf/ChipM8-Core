@@ -2,6 +2,7 @@
 #include <Bus/Bus.h>
 #include <Devices/Memory.h>
 
+
 BOOST_AUTO_TEST_SUITE(RegisteringMemory)
 
 /**
@@ -12,6 +13,7 @@ BOOST_AUTO_TEST_SUITE(RegisteringMemory)
 * addressable ranges.
 **/
 BOOST_AUTO_TEST_CASE(RegisterMemory1){
+    
     // Allocate a bus with 4KB of memory
     Bus bus(4096);
 
@@ -91,7 +93,7 @@ BOOST_AUTO_TEST_CASE(RegisterMemory3){
     mem.write(0, 250);
 
     // Read address 2048 from the bus
-    BOOST_TEST(bus.read(0) == 250);
+    BOOST_TEST(bus.read(2048) == 250);
     
     // Write to the memory at address 2047
     mem.write(2047, 149);
@@ -100,7 +102,7 @@ BOOST_AUTO_TEST_CASE(RegisterMemory3){
     BOOST_TEST(bus.read(4095) == 149);
 
     // Check that the addresses from 0 to 2048 are invalid
-    for(std::size_t address = 2048; address < 4096; address++){
+    for(std::size_t address = 0; address < 2048; address++){
         BOOST_CHECK_THROW(bus.read(address), std::out_of_range);
     }
 }
