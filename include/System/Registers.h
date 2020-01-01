@@ -97,4 +97,19 @@ class Registers{
          * @param value - the value to set the program counter to
          **/
         void setProgramCounter(uint16_t value);
+    private:
+        // General purpose registers V
+        uint8_t V[16];
+
+        // Delay and Sound timer
+        uint8_t DT, ST;
+
+        // Stack pointer
+        uint8_t SP;
+
+        // Memory address register
+        uint16_t I;
+
+        // Program counter
+        uint16_t PC;
 };

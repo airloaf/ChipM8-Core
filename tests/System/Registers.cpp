@@ -33,10 +33,10 @@ BOOST_AUTO_TEST_CASE(WriteToInvalidVRegisters){
     Registers registers;
 
     // Check that an exception is thrown for size_t values > 15
-    for(std::size_t registerNumber = 16; registerNumber < SIZE_MAX; registerNumber++){
-        // Write to the register using random value 100
-        BOOST_CHECK_THROW(registers.setVRegister(registerNumber, 100), std::domain_error);
-    }
+    BOOST_CHECK_THROW(registers.setVRegister(16, 100), std::domain_error);
+    BOOST_CHECK_THROW(registers.setVRegister(100, 100), std::domain_error);
+    BOOST_CHECK_THROW(registers.setVRegister(152, 100), std::domain_error);
+    BOOST_CHECK_THROW(registers.setVRegister(1202, 100), std::domain_error);
 }
 
 /**
@@ -69,10 +69,10 @@ BOOST_AUTO_TEST_CASE(ReadingFromInvalidVRegisters){
     Registers registers;
 
     // Check that an exception is thrown for size_t values > 15
-    for(std::size_t registerNumber = 16; registerNumber < SIZE_MAX; registerNumber++){
-        // read from the register
-        BOOST_CHECK_THROW(registers.getVRegister(registerNumber), std::domain_error);
-    }
+    BOOST_CHECK_THROW(registers.getVRegister(16), std::domain_error);
+    BOOST_CHECK_THROW(registers.getVRegister(100), std::domain_error);
+    BOOST_CHECK_THROW(registers.getVRegister(162), std::domain_error);
+    BOOST_CHECK_THROW(registers.getVRegister(1600), std::domain_error);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
