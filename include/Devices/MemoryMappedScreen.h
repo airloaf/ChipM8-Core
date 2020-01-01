@@ -14,6 +14,10 @@
 #include "../Bus/ReadableDevice.h"
 #include "../Bus/WritableDevice.h"
 
+#define SCREEN_WIDTH 64
+#define SCREEN_HEIGHT 32
+#define PIXELS_PER_BYTE 8
+
 class MemoryMappedScreen: public ReadableDevice, WritableDevice{
     public:
         /**
@@ -45,5 +49,6 @@ class MemoryMappedScreen: public ReadableDevice, WritableDevice{
         void write(std::size_t address, uint8_t value);
 
     private:
+        uint8_t screenData[(SCREEN_WIDTH * SCREEN_HEIGHT / PIXELS_PER_BYTE)];
 
 };
