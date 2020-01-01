@@ -1,9 +1,12 @@
 /**
  * Author: Vikram Singh
- * File: Screen.h
+ * File: MemoryMappedScreen.h
  *
  * Class used to represent the 64 x 32
- * monochrome screen for Chip-8.
+ * monochrome screen for Chip-8. This
+ * is a memory mapped screen since we
+ * will be accessing this object through
+ * the memory bus.
  **/
 
 #pragma once
@@ -11,14 +14,14 @@
 #include "../Bus/ReadableDevice.h"
 #include "../Bus/WritableDevice.h"
 
-class Screen: public ReadableDevice, WritableDevice{
+class MemoryMappedScreen: public ReadableDevice, WritableDevice{
     public:
         /**
          * Default constructor for Screen
          *
          * Sets the screen to blank (All 0s)
          **/
-        Screen();
+        MemoryMappedScreen();
 
         /**
          * Override of ReadableDevice::read
