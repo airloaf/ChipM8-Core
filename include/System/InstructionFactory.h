@@ -7,20 +7,20 @@
 
 #pragma once
 
-#include <cstdint>
-
 #include "Instruction.h"
+
+#include <cstdint>
 
 class InstructionFactory{
     public:
         /**
-         * Instruction creation method.
+         * Factory create method
          *
-         * @param opcode - the opcode to process
+         * @param opcode - the opcode to create an instruction
+         * for
          *
-         * @return Instruction - the instruction
-         * corresponding to the given opcode
+         * @return Instruction - the instruction corresponding
+         * to the given opcode.
          **/
-        Instruction *createInstruction(uint16_t opcode);        
-
+        Instruction *createInstruction(uint16_t opcode);
 };

@@ -23,6 +23,20 @@ class Interpreter{
          **/
         void tick();
 
+        /**
+         * Sets the bus reference for the interpreter
+         *
+         * @param bus - the bus reference
+         **/
+        void setBus(Bus *bus);
+
+        /**
+         * Sets the registers reference for the interpreter
+         *
+         * @param registers - the registers reference
+         **/
+        void setRegisters(Registers *registers);
+
     private:
         // Bus for reading and writing to devices
         Bus *mBus;
