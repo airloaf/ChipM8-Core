@@ -42,4 +42,7 @@ class MemoryMappedInput : public ReadableDevice, WritableDevice{
          * @param value - the value to write
          **/
         void write(std::size_t address, uint8_t value);
+
+    private:
+        uint8_t keys[2];
 };
