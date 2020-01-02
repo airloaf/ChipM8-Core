@@ -37,8 +37,6 @@ class MemoryMappedInput : public ReadableDevice, WritableDevice{
          * Override of WritableDevice::write
          *
          * Write a byte (8 keys) to the input.
-         * The value should have only a single
-         * bit corresponding to the key pressed/released.
          *
          * @param address - the address to write to on the input
          * @param value - the value to write
