@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Peripherals/Input.h"
+#include "../Peripherals/Screen.h"
 #include "Memory.h"
 #include "Registers.h"
 
@@ -44,6 +46,8 @@ class Interpreter{
          **/
         bool hasExecutionHalted();
 
+        Input input; // The input for the interpreter
         Memory memory; // Memory for Chip8. (4KB)
         Registers registers; // Registers associated with the Interpreter
+        Screen screen; // The screen for the interpreter
 };
