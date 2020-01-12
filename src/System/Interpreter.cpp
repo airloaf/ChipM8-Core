@@ -43,16 +43,22 @@ void EXE(){
 
 }
 
-void SEI(){
-
+void SEI(Registers &registers, uint8_t registerX, uint8_t immediate){
+    if(registers.V[registerX] == immediate){
+        registers.PC += 2;
+    }
 }
 
-void SNEI(){
-
+void SNEI(Registers &registers, uint8_t registerX, uint8_t immediate){
+    if(registers.V[registerX] != immediate){
+        registers.PC += 2;
+    }
 }
 
-void SE(){
-
+void SE(Registers &registers, uint8_t registerX, uint8_t registerY){
+    if(registers.V[registerX] == registers.V[registerY]){
+        registers.PC += 2;
+    }
 }
 
 void STRI(){
@@ -107,8 +113,10 @@ void LSH(Registers &registers, uint8_t registerX, uint8_t registerY){
     registers.V[registerX] = registers.V[registerY] << 1;
 }
 
-void SNE(){
-
+void SNE(Registers &registers, uint8_t registerX, uint8_t registerY){
+    if(registers.V[registerX] != registers.V[registerY]){
+        registers.PC += 2;
+    }
 }
 
 void STR(){
@@ -206,15 +214,15 @@ void Interpreter::executeInstruction(uint16_t opcode){
             break;
         case 0x3:
             // SEI
-            SEI();
+            SEI(registers, registerX, immediate);
             break;
         case 0x4:
             // SNEI
-            SNEI();
+            SNEI(registers, registerX, immediate);
             break;
         case 0x5:
             // SE
-            SE();
+            SE(registers, registerX, registerY);
             break;
         case 0x6:
             // STRI
@@ -266,7 +274,7 @@ void Interpreter::executeInstruction(uint16_t opcode){
             break;
         case 0x9:
             // SNE
-            SNE();
+            SNE(registers, registerX, registerY);
             break;
         case 0xA:
             // STR
