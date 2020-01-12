@@ -25,7 +25,7 @@ struct Fixture {
  * SETD (FX15)
  * SETS (FX18)
  **/
-BOOST_AUTO_TEST_SUITE(ProgramCounterManipulationTests);
+BOOST_AUTO_TEST_SUITE(RegisterManipulationTests);
 
 static auto STRI_Opcode =       bdata::make({0x6129, 0x6FFF, 0x60CB, 0x6B14, 0x6C18});
 static auto STRI_RegisterX =    bdata::make({0x01, 0x0F, 0x00, 0x0B, 0x0C});
