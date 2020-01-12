@@ -45,7 +45,8 @@ static auto STRI_DATA = STRI_Opcode ^ STRI_RegisterX ^ STRI_Immediate;
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, STRITests, STRI_DATA, opcode, registerX, immediate){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Tick the interpreter
     interpreter.tick();
@@ -72,7 +73,8 @@ static auto STRD_DATA = STRD_Opcode ^ STRD_RegisterX ^ STRD_DelayValue;
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, STRDTests, STRD_DATA, opcode, registerX, delayValue){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the delay register
     interpreter.registers.DT = delayValue;
@@ -102,7 +104,8 @@ static auto SETD_DATA = SETD_Opcode ^ SETD_RegisterX ^ SETD_registerValue;
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, SETDTests, SETD_DATA, opcode, registerX, registerValue){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the delay register
     interpreter.registers.V[registerX] = registerValue;
@@ -132,7 +135,8 @@ static auto SETS_DATA = SETS_Opcode ^ SETS_RegisterX ^ SETS_registerValue;
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, SETSTests, SETS_DATA, opcode, registerX, registerValue){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the delay register
     interpreter.registers.V[registerX] = registerValue;

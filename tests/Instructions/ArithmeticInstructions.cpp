@@ -30,7 +30,7 @@ struct Fixture {
  **/
 BOOST_AUTO_TEST_SUITE(ArithmeticTests);
 
-static auto ADDI_Opcode =           bdata::make({0x71FF, 0x7251, 0x7810, 0x7F44, 0x77C3});
+static auto ADDI_Opcode =           bdata::make({0x71FF, 0x7251, 0x7B10, 0x7F44, 0x77C3});
 static auto ADDI_RegisterNumber =   bdata::make({0x01, 0x02, 0x0B, 0x0F, 0x07});
 static auto ADDI_RegisterValue =    bdata::make({0x00, 0xFF, 0xEF, 0x55, 0x3C});
 static auto ADDI_Immediate =        bdata::make({0xFF, 0x51, 0x10, 0x44, 0xC3});
@@ -47,7 +47,8 @@ static auto ADDI_DATA = ADDI_Opcode ^ ADDI_RegisterNumber ^ ADDI_RegisterValue ^
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, ADDITests, ADDI_DATA, opcode, registerNumber, registerInitialValue, immediateValue, expectedValue){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register value
     interpreter.registers.V[registerNumber] = registerInitialValue;
@@ -59,7 +60,7 @@ BOOST_DATA_TEST_CASE_F(Fixture, ADDITests, ADDI_DATA, opcode, registerNumber, re
     BOOST_TEST(interpreter.registers.V[registerNumber] == expectedValue);
 }
 
-static auto COPY_Opcode =           bdata::make({0x81F0, 0x82C0, 0x8820, 0x8FE0, 0x8730});
+static auto COPY_Opcode =           bdata::make({0x81F0, 0x82C0, 0x8B20, 0x8FE0, 0x8730});
 static auto COPY_RegisterX =        bdata::make({0x01, 0x02, 0x0B, 0x0F, 0x07});
 static auto COPY_RegisterY =        bdata::make({0x0F, 0x0C, 0x02, 0x0E, 0x03});
 static auto COPY_RegisterXValue =   bdata::make({0x23, 0xFF, 0x00, 0xF2, 0x59});
@@ -78,7 +79,8 @@ static auto COPY_DATA = COPY_Opcode ^ COPY_RegisterX ^ COPY_RegisterY ^ COPY_Reg
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, COPYTests, COPY_DATA, opcode, registerX, registerY, xValue, yValue, expected){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register values
     interpreter.registers.V[registerX] = xValue;
@@ -91,7 +93,7 @@ BOOST_DATA_TEST_CASE_F(Fixture, COPYTests, COPY_DATA, opcode, registerX, registe
     BOOST_TEST(interpreter.registers.V[registerX] == expected);
 }
 
-static auto OR_Opcode =           bdata::make({0x81F1, 0x82C1, 0x8821, 0x8FE1, 0x8731});
+static auto OR_Opcode =           bdata::make({0x81F1, 0x82C1, 0x8B21, 0x8FE1, 0x8731});
 static auto OR_RegisterX =        bdata::make({0x01, 0x02, 0x0B, 0x0F, 0x07});
 static auto OR_RegisterY =        bdata::make({0x0F, 0x0C, 0x02, 0x0E, 0x03});
 static auto OR_RegisterXValue =   bdata::make({0x23, 0xFF, 0x00, 0xF2, 0x59});
@@ -110,7 +112,8 @@ static auto OR_DATA = OR_Opcode ^ OR_RegisterX ^ OR_RegisterY ^ OR_RegisterXValu
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, ORTests, OR_DATA, opcode, registerX, registerY, xValue, yValue, expected){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register values
     interpreter.registers.V[registerX] = xValue;
@@ -123,7 +126,7 @@ BOOST_DATA_TEST_CASE_F(Fixture, ORTests, OR_DATA, opcode, registerX, registerY, 
     BOOST_TEST(interpreter.registers.V[registerX] == expected);
 }
 
-static auto AND_Opcode =           bdata::make({0x81F2, 0x82C2, 0x8822, 0x8FE2, 0x8732});
+static auto AND_Opcode =           bdata::make({0x81F2, 0x82C2, 0x8B22, 0x8FE2, 0x8732});
 static auto AND_RegisterX =        bdata::make({0x01, 0x02, 0x0B, 0x0F, 0x07});
 static auto AND_RegisterY =        bdata::make({0x0F, 0x0C, 0x02, 0x0E, 0x03});
 static auto AND_RegisterXValue =   bdata::make({0x23, 0xFF, 0x00, 0xF2, 0x59});
@@ -142,7 +145,8 @@ static auto AND_DATA = AND_Opcode ^ AND_RegisterX ^ AND_RegisterY ^ AND_Register
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, ANDTests, AND_DATA, opcode, registerX, registerY, xValue, yValue, expected){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register values
     interpreter.registers.V[registerX] = xValue;
@@ -155,7 +159,7 @@ BOOST_DATA_TEST_CASE_F(Fixture, ANDTests, AND_DATA, opcode, registerX, registerY
     BOOST_TEST(interpreter.registers.V[registerX] == expected);
 }
 
-static auto XOR_Opcode =           bdata::make({0x81F3, 0x82C3, 0x8823, 0x8FE3, 0x8733});
+static auto XOR_Opcode =           bdata::make({0x81F3, 0x82C3, 0x8B23, 0x8FE3, 0x8733});
 static auto XOR_RegisterX =        bdata::make({0x01, 0x02, 0x0B, 0x0F, 0x07});
 static auto XOR_RegisterY =        bdata::make({0x0F, 0x0C, 0x02, 0x0E, 0x03});
 static auto XOR_RegisterXValue =   bdata::make({0x23, 0xFF, 0x00, 0xF2, 0x59});
@@ -173,7 +177,8 @@ static auto XOR_DATA = XOR_Opcode ^ XOR_RegisterX ^ XOR_RegisterY ^ XOR_Register
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, XORTests, XOR_DATA, opcode, registerX, registerY, xValue, yValue, expected){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register values
     interpreter.registers.V[registerX] = xValue;
@@ -186,7 +191,7 @@ BOOST_DATA_TEST_CASE_F(Fixture, XORTests, XOR_DATA, opcode, registerX, registerY
     BOOST_TEST(interpreter.registers.V[registerX] == expected);
 }
 
-static auto ADD_Opcode =           bdata::make({0x81E4, 0x82C4, 0x8824, 0x8CE4, 0x8734});
+static auto ADD_Opcode =           bdata::make({0x81E4, 0x82C4, 0x8B24, 0x8CE4, 0x8734});
 static auto ADD_RegisterX =        bdata::make({0x01, 0x02, 0x0B, 0x0C, 0x07});
 static auto ADD_RegisterY =        bdata::make({0x0E, 0x0C, 0x02, 0x0E, 0x03});
 static auto ADD_RegisterXValue =   bdata::make({0x23, 0xFF, 0x00, 0xF2, 0x59});
@@ -206,7 +211,8 @@ static auto ADD_DATA = ADD_Opcode ^ ADD_RegisterX ^ ADD_RegisterY ^ ADD_Register
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, ADDTests, ADD_DATA, opcode, registerX, registerY, xValue, yValue, expected, flag){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register values
     interpreter.registers.V[registerX] = xValue;
@@ -222,7 +228,7 @@ BOOST_DATA_TEST_CASE_F(Fixture, ADDTests, ADD_DATA, opcode, registerX, registerY
     BOOST_TEST(interpreter.registers.V[0xF] == flag);
 }
 
-static auto SUB_Opcode =           bdata::make({0x81E5, 0x82C5, 0x8825, 0x8CE5, 0x8735});
+static auto SUB_Opcode =           bdata::make({0x81E5, 0x82C5, 0x8B25, 0x8CE5, 0x8735});
 static auto SUB_RegisterX =        bdata::make({0x01, 0x02, 0x0B, 0x0C, 0x07});
 static auto SUB_RegisterY =        bdata::make({0x0E, 0x0C, 0x02, 0x0E, 0x03});
 static auto SUB_RegisterXValue =   bdata::make({0x23, 0xFF, 0x00, 0xF2, 0x59});
@@ -242,7 +248,8 @@ static auto SUB_DATA = SUB_Opcode ^ SUB_RegisterX ^ SUB_RegisterY ^ SUB_Register
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, SUBTests, SUB_DATA, opcode, registerX, registerY, xValue, yValue, expected, flag){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register values
     interpreter.registers.V[registerX] = xValue;
@@ -258,12 +265,12 @@ BOOST_DATA_TEST_CASE_F(Fixture, SUBTests, SUB_DATA, opcode, registerX, registerY
     BOOST_TEST(interpreter.registers.V[0xF] == flag);
 }
 
-static auto SHR_Opcode =           bdata::make({0x81E6, 0x82C6, 0x8826, 0x8CE6, 0x8736});
+static auto SHR_Opcode =           bdata::make({0x81E6, 0x82C6, 0x8B26, 0x8CE6, 0x8736});
 static auto SHR_RegisterX =        bdata::make({0x01, 0x02, 0x0B, 0x0C, 0x07});
 static auto SHR_RegisterY =        bdata::make({0x0E, 0x0C, 0x02, 0x0E, 0x03});
 static auto SHR_RegisterXValue =   bdata::make({0x23, 0xFF, 0x00, 0xF2, 0x59});
 static auto SHR_RegisterYValue =   bdata::make({0x00, 0x49, 0x39, 0xE4, 0xCC});
-static auto SHR_Expected =         bdata::make({0x00, 0x26, 0x1C, 0x82, 0x66});
+static auto SHR_Expected =         bdata::make({0x00, 0x24, 0x1C, 0x72, 0x66});
 static auto SHR_Flag =             bdata::make({0x00, 0x01, 0x01, 0x00, 0x00});
 
 // SHR Data
@@ -278,7 +285,8 @@ static auto SHR_DATA = SHR_Opcode ^ SHR_RegisterX ^ SHR_RegisterY ^ SHR_Register
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, SHRTests, SHR_DATA, opcode, registerX, registerY, xValue, yValue, expected, flag){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register values
     interpreter.registers.V[registerX] = xValue;
@@ -294,7 +302,7 @@ BOOST_DATA_TEST_CASE_F(Fixture, SHRTests, SHR_DATA, opcode, registerX, registerY
     BOOST_TEST(interpreter.registers.V[0xF] == flag);
 }
 
-static auto SUBR_Opcode =           bdata::make({0x81E7, 0x82C7, 0x8827, 0x8CE7, 0x8737});
+static auto SUBR_Opcode =           bdata::make({0x81E7, 0x82C7, 0x8B27, 0x8CE7, 0x8737});
 static auto SUBR_RegisterX =        bdata::make({0x01, 0x02, 0x0B, 0x0C, 0x07});
 static auto SUBR_RegisterY =        bdata::make({0x0E, 0x0C, 0x02, 0x0E, 0x03});
 static auto SUBR_RegisterXValue =   bdata::make({0x23, 0xFF, 0x00, 0xF2, 0x59});
@@ -314,7 +322,8 @@ static auto SUBR_DATA = SUBR_Opcode ^ SUBR_RegisterX ^ SUBR_RegisterY ^ SUBR_Reg
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, SUBRTests, SUBR_DATA, opcode, registerX, registerY, xValue, yValue, expected, flag){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register values
     interpreter.registers.V[registerX] = xValue;
@@ -330,7 +339,7 @@ BOOST_DATA_TEST_CASE_F(Fixture, SUBRTests, SUBR_DATA, opcode, registerX, registe
     BOOST_TEST(interpreter.registers.V[0xF] == flag);
 }
 
-static auto SHL_Opcode =           bdata::make({0x81EE, 0x82CE, 0x882E, 0x8CEE, 0x873E});
+static auto SHL_Opcode =           bdata::make({0x81EE, 0x82CE, 0x8B2E, 0x8CEE, 0x873E});
 static auto SHL_RegisterX =        bdata::make({0x01, 0x02, 0x0B, 0x0C, 0x07});
 static auto SHL_RegisterY =        bdata::make({0x0E, 0x0C, 0x02, 0x0E, 0x03});
 static auto SHL_RegisterXValue =   bdata::make({0x23, 0xFF, 0x00, 0xF2, 0x59});
@@ -350,7 +359,8 @@ static auto SHL_DATA = SHL_Opcode ^ SHL_RegisterX ^ SHL_RegisterY ^ SHL_Register
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, SHLTests, SHL_DATA, opcode, registerX, registerY, xValue, yValue, expected, flag){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register values
     interpreter.registers.V[registerX] = xValue;

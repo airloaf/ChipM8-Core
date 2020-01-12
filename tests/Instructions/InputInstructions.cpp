@@ -54,7 +54,8 @@ static auto SP_DATA = (SP_Opcode ^ SP_RegisterX ^ SP_RegisterXValue ^ SP_Expecte
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, SPTests, SP_DATA, opcode, registerX, xValue, expected){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register values
     interpreter.registers.V[registerX] = xValue;
@@ -85,7 +86,8 @@ static auto SNP_DATA = (SNP_Opcode ^ SNP_RegisterX ^ SNP_RegisterXValue ^ SNP_Ex
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, SNPTests, SNP_DATA, opcode, registerX, xValue, expected){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register values
     interpreter.registers.V[registerX] = xValue;
@@ -115,7 +117,8 @@ static auto WAIT_DATA = (WAIT_Opcode ^ WAIT_RegisterX ^ WAIT_Expected);
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, WAITTests, WAIT_DATA, opcode, registerX, expected){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Tick the interpreter
     interpreter.tick();

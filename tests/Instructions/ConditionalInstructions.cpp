@@ -50,7 +50,8 @@ static auto SEI_DATA = SEI_Opcode ^ SEI_RegisterX ^ SEI_RegisterXValue ^ SEI_Imm
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, SEITests, SEI_DATA, opcode, registerX, xValue, immediate, expected){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register values
     interpreter.registers.V[registerX] = xValue;
@@ -81,7 +82,8 @@ static auto SNEI_DATA = SNEI_Opcode ^ SNEI_RegisterX ^ SNEI_RegisterXValue ^ SNE
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, SNEITests, SNEI_DATA, opcode, registerX, xValue, immediate, expected){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register values
     interpreter.registers.V[registerX] = xValue;
@@ -113,7 +115,8 @@ static auto SE_DATA = SE_Opcode ^ SE_RegisterX ^ SE_RegisterXValue ^ SE_Register
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, SETests, SE_DATA, opcode, registerX, xValue, registerY, yValue, expected){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register values
     interpreter.registers.V[registerX] = xValue;
@@ -146,7 +149,8 @@ static auto SNE_DATA = SNE_Opcode ^ SNE_RegisterX ^ SNE_RegisterXValue ^ SNE_Reg
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, SNETests, SNE_DATA, opcode, registerX, xValue, registerY, yValue, expected){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the initial register values
     interpreter.registers.V[registerX] = xValue;

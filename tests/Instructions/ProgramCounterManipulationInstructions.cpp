@@ -47,7 +47,8 @@ static auto RET_DATA = RET_address ^ RET_addressUpper ^ RET_addressLower;
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, RETTests, RET_DATA, address, addressUpper, addressLower){
     // Set the opcode
-    interpreter.memory[0x200] = 0x00EE;
+    interpreter.memory[0x200] = 0x00;
+    interpreter.memory[0x201] = 0xEE;
 
     // Put the address onto the stack
     interpreter.memory[0x1FE] = addressUpper;
@@ -82,7 +83,8 @@ static auto JUMP_DATA = JUMP_opcode ^ JUMP_address;
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, JUMPTests, JUMP_DATA, opcode, address){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Tick the interpreter
     interpreter.tick();
@@ -114,7 +116,8 @@ static auto EXE_DATA = EXE_opcode ^ EXE_address ^ EXE_Stack ^ EXE_PC ^ EXE_PCUpp
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, EXETests, EXE_DATA, opcode, address, stackInitial, pc, pcUpper, pcLower){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set the stack to the initial value
     interpreter.registers.SP = stackInitial;
@@ -155,7 +158,8 @@ static auto BR_DATA = BR_opcode ^ BR_address ^ BR_Value ^ BR_Expected;
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, BRTests, BR_DATA, opcode, address, value, expected){
     // Set the opcode
-    interpreter.memory[0x200] = opcode;
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
     // Set register V0's value
     interpreter.registers.V[0] = value;
