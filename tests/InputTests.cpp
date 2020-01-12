@@ -33,7 +33,7 @@ struct Fixture {
  * SNP  (EXA1) 
  * WAIT (FX0A)
  **/
-BOOST_AUTO_TEST_SUITE(ArithmeticTests);
+BOOST_AUTO_TEST_SUITE(InputTests);
 
 static auto SP_Opcode =           bdata::make({0xE19E, 0xE29E, 0xEB9E, 0xEC9E, 0xE79E});
 static auto SP_RegisterX =        bdata::make({0x01, 0x02, 0x0B, 0x0C, 0x07});

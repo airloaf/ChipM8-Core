@@ -29,7 +29,7 @@ struct Fixture {
  * SE   (5XY0)
  * SNE  (9XY0)
  **/
-BOOST_AUTO_TEST_SUITE(ArithmeticTests);
+BOOST_AUTO_TEST_SUITE(ConditionalInstructionTests);
 
 static auto SEI_Opcode =           bdata::make({0x3123, 0x32FF, 0x3C11, 0x3714, 0x378C});
 static auto SEI_RegisterX =        bdata::make({0x01, 0x02, 0x0B, 0x0C, 0x07});
