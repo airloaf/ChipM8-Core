@@ -27,4 +27,7 @@ class Input{
          **/
         void setKeyPressed(uint8_t key, bool pressed);
 
+    private:
+        bool keys[16];
+
 };

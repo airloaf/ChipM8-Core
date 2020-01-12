@@ -50,4 +50,7 @@ class Interpreter{
         Memory memory; // Memory for Chip8. (4KB)
         Registers registers; // Registers associated with the Interpreter
         Screen screen; // The screen for the interpreter
+    
+    private:
+        void executeInstruction(uint16_t opcode);
 };
