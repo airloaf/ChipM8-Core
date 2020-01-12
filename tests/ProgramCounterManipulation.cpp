@@ -29,9 +29,11 @@ struct Fixture {
 BOOST_AUTO_TEST_SUITE(ProgramCounterManipulationTests);
 
 static auto RET_address =      bdata::make({0x329, 0xFFF, 0x5CB, 0xB14, 0x118});
+static auto RET_addressUpper = bdata::make({0x003, 0x00F, 0x005, 0x00B, 0x001});
+static auto RET_addressLower = bdata::make({0x029, 0x0FF, 0x0CB, 0x014, 0x018});
 
 // RET Data
-static auto RET_DATA = RET_address;
+static auto RET_DATA = RET_address ^ RET_addressUpper ^ RET_addressLower;
 
 /**
  * RET Instruction
@@ -43,13 +45,13 @@ static auto RET_DATA = RET_address;
  * - The program counter is set to the address
  * - The stack pointer is incremented by 2
  **/
-BOOST_DATA_TEST_CASE_F(Fixture, RETTests, RET_DATA, address){
+BOOST_DATA_TEST_CASE_F(Fixture, RETTests, RET_DATA, address, addressUpper, addressLower){
     // Set the opcode
     interpreter.memory[0x200] = 0x00EE;
 
     // Put the address onto the stack
-    interpreter.memory[0x1FE] = (address & 0xFF00) >> 8;
-    interpreter.memory[0x1FF] = (address & 0x00FF) >> 0;
+    interpreter.memory[0x1FE] = addressUpper;
+    interpreter.memory[0x1FF] = addressLower;
 
     // Set the stack to 0x1FE
     interpreter.registers.SP = 0x1FE;
@@ -92,9 +94,12 @@ BOOST_DATA_TEST_CASE_F(Fixture, JUMPTests, JUMP_DATA, opcode, address){
 static auto EXE_opcode =       bdata::make({0x2329, 0x2FFF, 0x25CB, 0x2B14, 0x2118});
 static auto EXE_address =      bdata::make({0x329,  0xFFF,  0x5CB,  0xB14,  0x118});
 static auto EXE_Stack =        bdata::make({0x200,  0x190,  0x1C4,  0x1B7,  0x1DD});
+static auto EXE_PC =           bdata::make({0x200,  0xF19,  0xCCC,  0x7B9,  0x3BF});
+static auto EXE_PCUpper =      bdata::make({0x002,  0x00F,  0x00C,  0x007,  0x003});
+static auto EXE_PCLower =      bdata::make({0x000,  0x019,  0x0CC,  0x0B9,  0x0BF});
 
 // EXE Data
-static auto EXE_DATA = EXE_opcode ^ EXE_address ^ EXE_Stack;
+static auto EXE_DATA = EXE_opcode ^ EXE_address ^ EXE_Stack ^ EXE_PC ^ EXE_PCUpper ^ EXE_PCLower;
 
 /**
  * EXE Instruction
@@ -104,25 +109,31 @@ static auto EXE_DATA = EXE_opcode ^ EXE_address ^ EXE_Stack;
  *
  * This test checks the following:
  * - The program counter is set to the address
+ * - The initial program counter is put in the stack
+ * - The stack pointer is decremented by 2
  **/
-BOOST_DATA_TEST_CASE_F(Fixture, EXETests, EXE_DATA, opcode, address, stackInitial){
+BOOST_DATA_TEST_CASE_F(Fixture, EXETests, EXE_DATA, opcode, address, stackInitial, pc, pcUpper, pcLower){
     // Set the opcode
     interpreter.memory[0x200] = opcode;
 
     // Set the stack to the initial value
     interpreter.registers.SP = stackInitial;
 
-    // Put the address in the stack
-    interpreter.memory[interpreter.registers.SP+0] = (address & 0xFF00) >> 8;
-    interpreter.memory[interpreter.registers.SP+1] = (address & 0x00FF) >> 0;
+    // Set the program counter to the initial value
+    interpreter.registers.PC = pc;
 
     // Tick the interpreter
     interpreter.tick();
 
     // Check that the program counter is at the address
     BOOST_TEST(interpreter.registers.PC == address);
-    // Check that the stack pointer is incremented by 2
-    BOOST_TEST(interpreter.registers.SP == stackInitial+2);
+    
+    // Check that the program counter is stored in the stack
+    BOOST_TEST(interpreter.memory[stackInitial-2] == pcUpper);
+    BOOST_TEST(interpreter.memory[stackInitial-1] == pcLower);
+
+    // Check that the stack pointer is decremented by 2
+    BOOST_TEST(interpreter.registers.SP == stackInitial-2);
 }
 
 static auto BR_opcode =       bdata::make({0xB329, 0xBFFF, 0xB5CB, 0xBB14, 0xB118});
