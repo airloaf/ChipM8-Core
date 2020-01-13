@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../System/Registers.h"
+
 #include <stdint.h>
 
 /**
@@ -11,6 +13,8 @@
  **/
 class Input{
     public:
+        Input();
+
         /**
          * Checks if the key is pressed
          *
@@ -27,7 +31,25 @@ class Input{
          **/
         void setKeyPressed(uint8_t key, bool pressed);
 
-    private:
-        bool keys[16];
+        /**
+         * Store the next keypress into registerX of the
+         * given registers.
+         *
+         * @param registers - the register list
+         * @param registerX - the register to use
+         **/
+        void waitForKeyPress(Registers &registers, uint8_t registerX);
 
+        /**
+         * Return if the input is waiting for
+         * a key press.
+         **/
+        bool isWaiting();
+
+    private:
+        Registers *registers;
+        uint8_t waitedRegister;
+        
+        bool keys[16];
+        bool waiting;
 };

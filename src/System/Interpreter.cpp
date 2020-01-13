@@ -14,7 +14,6 @@ Interpreter::Interpreter(){
 
     registers.DT = 0;
     registers.ST = 0;
-
 }
 
 Interpreter::~Interpreter(){
@@ -135,20 +134,26 @@ void DRAW(){
 
 }
 
-void SP(){
-
+void SP(Registers &registers, Input &input, uint8_t registerX){
+    uint8_t key = (registers.V[registerX] & 0x0F);
+    if(input.isKeyPressed(key)){
+        registers.PC += 2;
+    }
 }
 
-void SNP(){
-    
+void SNP(Registers &registers, Input &input, uint8_t registerX){
+    uint8_t key = (registers.V[registerX] & 0x0F);
+    if(!input.isKeyPressed(key)){
+        registers.PC += 2;
+    }
 }
 
 void STRD(){
 
 }
 
-void WAIT(){
-
+void WAIT(Registers &registers, Input &input, uint8_t registerX){
+    input.waitForKeyPress(registers, registerX);
 }
 
 void SETD(){
@@ -295,10 +300,10 @@ void Interpreter::executeInstruction(uint16_t opcode){
         case 0xE:
             if(fourthHexit == 0xE){
                 // SP
-                SP();
+                SP(registers, input, registerX);
             }else{
                 // SNP
-                SNP();
+                SNP(registers, input, registerX);
             }
             break;
         case 0xF:
@@ -309,7 +314,7 @@ void Interpreter::executeInstruction(uint16_t opcode){
                     break;
                 case 0x0A:
                     // WAIT
-                    WAIT();
+                    WAIT(registers, input, registerX);
                     break;
                 case 0x15:
                     // SETD
@@ -362,5 +367,5 @@ void Interpreter::tickTimers(){
 }
 
 bool Interpreter::hasExecutionHalted(){
-    return false;
+    return input.isWaiting();
 }

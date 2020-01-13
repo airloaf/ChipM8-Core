@@ -12,7 +12,7 @@ namespace bdata = boost::unit_test::data;
 
 
 struct Fixture {
-    Fixture(){
+    void setup(){
         std::vector<bool> keysPressed = {true, false, false, true, true, true, false, true, false, true, false, false, false, true, false, false};
         for(std::size_t key = 0; key < 16; key++){
             interpreter.input.setKeyPressed(key, keysPressed[key]);
@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_SUITE(InputTests);
 static auto SP_Opcode =           bdata::make({0xE19E, 0xE29E, 0xEB9E, 0xEC9E, 0xE79E});
 static auto SP_RegisterX =        bdata::make({0x01, 0x02, 0x0B, 0x0C, 0x07});
 static auto SP_RegisterXValue =   bdata::make({0x23, 0xFF, 0x00, 0xF2, 0x59});
-static auto SP_Expected =         bdata::make({0x202, 0x202, 0x201, 0x201, 0x201});
+static auto SP_Expected =         bdata::make({0x204, 0x202, 0x204, 0x202, 0x204});
 
 // SP Data
 static auto SP_DATA = (SP_Opcode ^ SP_RegisterX ^ SP_RegisterXValue ^ SP_Expected);
@@ -70,7 +70,7 @@ BOOST_DATA_TEST_CASE_F(Fixture, SPTests, SP_DATA, opcode, registerX, xValue, exp
 static auto SNP_Opcode =           bdata::make({0xE1A1, 0xE2A1, 0xEBA1, 0xECA1, 0xE7A1});
 static auto SNP_RegisterX =        bdata::make({0x01, 0x02, 0x0B, 0x0C, 0x07});
 static auto SNP_RegisterXValue =   bdata::make({0x23, 0xFF, 0x00, 0xF2, 0x59});
-static auto SNP_Expected =         bdata::make({0x201, 0x201, 0x202, 0x202, 0x202});
+static auto SNP_Expected =         bdata::make({0x202, 0x204, 0x202, 0x204, 0x202});
 
 // SNP Data
 static auto SNP_DATA = (SNP_Opcode ^ SNP_RegisterX ^ SNP_RegisterXValue ^ SNP_Expected);
