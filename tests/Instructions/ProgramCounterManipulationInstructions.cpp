@@ -98,7 +98,7 @@ static auto EXE_address =      bdata::make({0x329,  0xFFF,  0x5CB,  0xB14,  0x11
 static auto EXE_Stack =        bdata::make({0x200,  0x190,  0x1C4,  0x1B7,  0x1DD});
 static auto EXE_PC =           bdata::make({0x200,  0xF19,  0xCCC,  0x7B9,  0x3BF});
 static auto EXE_PCUpper =      bdata::make({0x002,  0x00F,  0x00C,  0x007,  0x003});
-static auto EXE_PCLower =      bdata::make({0x000,  0x019,  0x0CC,  0x0B9,  0x0BF});
+static auto EXE_PCLower =      bdata::make({0x002,  0x01B,  0x0CE,  0x0BB,  0x0C1});
 
 // EXE Data
 static auto EXE_DATA = EXE_opcode ^ EXE_address ^ EXE_Stack ^ EXE_PC ^ EXE_PCUpper ^ EXE_PCLower;
@@ -107,7 +107,8 @@ static auto EXE_DATA = EXE_opcode ^ EXE_address ^ EXE_Stack ^ EXE_PC ^ EXE_PCUpp
  * EXE Instruction
  *
  * EXE instruction sets the program counter to the address
- * specified in the address.
+ * specified in the address. The PCUpper and PCLower value
+ * is the upper and lower byte for the program counter + 2.
  *
  * This test checks the following:
  * - The program counter is set to the address
@@ -116,8 +117,8 @@ static auto EXE_DATA = EXE_opcode ^ EXE_address ^ EXE_Stack ^ EXE_PC ^ EXE_PCUpp
  **/
 BOOST_DATA_TEST_CASE_F(Fixture, EXETests, EXE_DATA, opcode, address, stackInitial, pc, pcUpper, pcLower){
     // Set the opcode
-    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
-    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
+    interpreter.memory[pc+0] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[pc+1] = (opcode & 0x00FF) >> 0;
 
     // Set the stack to the initial value
     interpreter.registers.SP = stackInitial;

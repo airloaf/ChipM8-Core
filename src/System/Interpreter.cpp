@@ -30,16 +30,30 @@ void CLS(){
 
 }
 
-void RET(){
+void RET(Registers &registers, Memory &memory){
+    uint8_t addressUpper = memory[registers.SP+0];
+    uint8_t addressLower = memory[registers.SP+1];
 
+    uint16_t address = (addressUpper << 8) + addressLower;
+
+    registers.PC = address;
+    registers.SP += 2;
 }
 
-void JUMP(){
-
+void JUMP(Registers &registers, uint16_t address){
+    registers.PC = address;
 }
 
-void EXE(){
+void EXE(Registers &registers, Memory &memory, uint16_t address){
+    uint16_t pcUpper = (registers.PC & 0xFF00) >> 8;
+    uint16_t pcLower = (registers.PC & 0x00FF) >> 0;
 
+    registers.SP -= 2;
+
+    memory[registers.SP+0] = pcUpper;
+    memory[registers.SP+1] = pcLower;
+
+    registers.PC = address;
 }
 
 void SEI(Registers &registers, uint8_t registerX, uint8_t immediate){
@@ -122,8 +136,8 @@ void STR(){
 
 }
 
-void BR(){
-
+void BR(Registers &registers, uint16_t address){
+    registers.PC = ((address + registers.V[0]) % 0x1000);
 }
 
 void RND(){
@@ -201,7 +215,7 @@ void Interpreter::executeInstruction(uint16_t opcode){
         case 0x0:
             if(opcode == 0x00EE){
                 // RET
-                RET();
+                RET(registers, memory);
             }else if(opcode == 0x00E0){
                 // CLS
                 CLS();
@@ -211,11 +225,11 @@ void Interpreter::executeInstruction(uint16_t opcode){
             break;
         case 0x1:
             // JUMP
-            JUMP();
+            JUMP(registers, address);
             break;
         case 0x2:
             // EXE
-            EXE();
+            EXE(registers, memory, address);
             break;
         case 0x3:
             // SEI
@@ -287,7 +301,7 @@ void Interpreter::executeInstruction(uint16_t opcode){
             break;
         case 0xB:
             // BR
-            BR();
+            BR(registers, address);
             break;
         case 0xC:
             // RND
@@ -351,12 +365,13 @@ void Interpreter::executeInstruction(uint16_t opcode){
 
 void Interpreter::tick(){
 
+
     // First we need to fetch the opcode
     uint16_t opcode = fetchOpcode(memory, registers);
-
-    // Next we need to increment the program counter
-    // for the next instruction.
+    
+    // Increment the program counter for the next instruction
     registers.PC += 2;
+    registers.PC = registers.PC % 0x1000;
 
     // Execute the instruction
     executeInstruction(opcode);
