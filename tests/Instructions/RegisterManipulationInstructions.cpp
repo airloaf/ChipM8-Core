@@ -86,7 +86,7 @@ BOOST_DATA_TEST_CASE_F(Fixture, STRDTests, STRD_DATA, opcode, registerX, delayVa
     BOOST_TEST(interpreter.registers.V[registerX] == delayValue);
 }
 
-static auto SETD_Opcode =       bdata::make({0xF107, 0xFF07, 0xF007, 0xFB07, 0xFC07});
+static auto SETD_Opcode =       bdata::make({0xF115, 0xFF15, 0xF015, 0xFB15, 0xFC15});
 static auto SETD_RegisterX =    bdata::make({0x01, 0x0F, 0x00, 0x0B, 0x0C});
 static auto SETD_registerValue =   bdata::make({0x29, 0xFF, 0xCB, 0x14, 0x18});
 
@@ -117,7 +117,7 @@ BOOST_DATA_TEST_CASE_F(Fixture, SETDTests, SETD_DATA, opcode, registerX, registe
     BOOST_TEST(interpreter.registers.DT == registerValue);
 }
 
-static auto SETS_Opcode =       bdata::make({0xF107, 0xFF07, 0xF007, 0xFB07, 0xFC07});
+static auto SETS_Opcode =       bdata::make({0xF118, 0xFF18, 0xF018, 0xFB18, 0xFC18});
 static auto SETS_RegisterX =    bdata::make({0x01, 0x0F, 0x00, 0x0B, 0x0C});
 static auto SETS_registerValue =   bdata::make({0x29, 0xFF, 0xCB, 0x14, 0x18});
 
