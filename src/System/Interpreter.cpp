@@ -74,8 +74,8 @@ void SE(Registers &registers, uint8_t registerX, uint8_t registerY){
     }
 }
 
-void STRI(){
-
+void STRI(Registers &registers, uint8_t registerX, uint16_t immediate){
+    registers.V[registerX] = immediate;
 }
 
 void ADDI(Registers &registers, uint8_t registerX, uint16_t immediate){
@@ -162,20 +162,20 @@ void SNP(Registers &registers, Input &input, uint8_t registerX){
     }
 }
 
-void STRD(){
-
+void STRD(Registers &registers, uint8_t registerX){
+    registers.V[registerX] = registers.DT;
 }
 
 void WAIT(Registers &registers, Input &input, uint8_t registerX){
     input.waitForKeyPress(registers, registerX);
 }
 
-void SETD(){
-
+void SETD(Registers &registers, uint8_t registerX){
+    registers.DT = registers.V[registerX];
 }
 
-void SETS(){
-
+void SETS(Registers &registers, uint8_t registerX){
+    registers.ST = registers.V[registerX];
 }
 
 void OFFS(){
@@ -245,7 +245,7 @@ void Interpreter::executeInstruction(uint16_t opcode){
             break;
         case 0x6:
             // STRI
-            STRI();
+            STRI(registers, registerX, immediate);
             break;
         case 0x7:
             // ADDI
@@ -324,7 +324,7 @@ void Interpreter::executeInstruction(uint16_t opcode){
             switch(lsb){
                 case 0x07:
                     // STRD
-                    STRD();
+                    STRD(registers, registerX);
                     break;
                 case 0x0A:
                     // WAIT
@@ -332,11 +332,11 @@ void Interpreter::executeInstruction(uint16_t opcode){
                     break;
                 case 0x15:
                     // SETD
-                    SETD();
+                    SETD(registers, registerX);
                     break;
                 case 0x18:
                     // SETS
-                    SETS();
+                    SETS(registers, registerX);
                     break;
                 case 0x1E:
                     // OFFS
