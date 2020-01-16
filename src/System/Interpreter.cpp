@@ -132,8 +132,8 @@ void SNE(Registers &registers, uint8_t registerX, uint8_t registerY){
     }
 }
 
-void STR(){
-
+void STR(Registers &registers, uint16_t address){
+    registers.I = address;
 }
 
 void BR(Registers &registers, uint16_t address){
@@ -178,24 +178,37 @@ void SETS(Registers &registers, uint8_t registerX){
     registers.ST = registers.V[registerX];
 }
 
-void OFFS(){
-
+void OFFS(Registers &registers, uint8_t registerX){
+    registers.I += registers.V[registerX];
+    registers.I %= 0x1000;
 }
 
-void NUM(){
-
+void NUM(Registers &registers, uint8_t registerX){
+    registers.I = (registers.V[registerX] % 0x10) * 5;
 }
 
-void BCD(){
+void BCD(Registers &registers, Memory &memory, uint8_t registerX){
+    uint8_t registerValue = registers.V[registerX];
 
+    int firstDigit = (registerValue / 100);
+    int secondDigit = ((registerValue % 100) - (registerValue % 10)) / 10;
+    int thirdDigit = registerValue % 10;
+
+    memory[registers.I+0] = firstDigit;
+    memory[registers.I+1] = secondDigit;
+    memory[registers.I+2] = thirdDigit;
 }
 
-void STRM(){
-
+void STRM(Registers &registers, Memory &memory, uint8_t registerX){
+    for(std::size_t registerNum = 0; registerNum < 16; registerNum++){
+        memory[registers.I + registerNum] = registers.V[registerNum];
+    }
 }
 
-void LDM(){
-
+void LDM(Registers &registers, Memory &memory, uint8_t registerX){
+    for(std::size_t registerNum = 0; registerNum < 16; registerNum++){
+        registers.V[registerNum] = memory[registers.I + registerNum];
+    }
 }
 
 void Interpreter::executeInstruction(uint16_t opcode){
@@ -297,7 +310,7 @@ void Interpreter::executeInstruction(uint16_t opcode){
             break;
         case 0xA:
             // STR
-            STR();
+            STR(registers, address);
             break;
         case 0xB:
             // BR
@@ -340,23 +353,23 @@ void Interpreter::executeInstruction(uint16_t opcode){
                     break;
                 case 0x1E:
                     // OFFS
-                    OFFS();
+                    OFFS(registers, registerX);
                     break;
                 case 0x29:
                     // NUM
-                    NUM();
+                    NUM(registers, registerX);
                     break;
                 case 0x33:
                     // BCD
-                    BCD();
+                    BCD(registers, memory, registerX);
                     break;
                 case 0x55:
                     // STRM
-                    STRM();
+                    STRM(registers, memory, registerX);
                     break;
                 default:
                     // LDM
-                    LDM();
+                    LDM(registers, memory, registerX);
                     break;
             }
             break;

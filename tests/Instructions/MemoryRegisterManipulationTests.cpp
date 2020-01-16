@@ -91,7 +91,7 @@ BOOST_DATA_TEST_CASE_F(Fixture, OFFSTests, OFFS_DATA, opcode, address, registerX
 static auto NUM_Opcode =       bdata::make({0xF129, 0xFF29, 0xFD29, 0xF629, 0xF929});
 static auto NUM_RegisterX =    bdata::make({0x0001, 0x000F, 0x000D, 0x0006, 0x0009});
 static auto NUM_Immediate =    bdata::make({0x0020, 0x00FF, 0x0044, 0x00CC, 0x00A7});
-static auto NUM_Expected =     bdata::make({0x0000, 0x0046, 0x0014, 0x0030, 0x0023});
+static auto NUM_Expected =     bdata::make({0x0000, 0x004B, 0x0014, 0x003C, 0x0023});
 
 // NUM Data
 static auto NUM_DATA = NUM_Opcode ^ NUM_RegisterX ^ NUM_Immediate ^ NUM_Expected;
