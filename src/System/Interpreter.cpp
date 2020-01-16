@@ -29,8 +29,8 @@ uint16_t fetchOpcode(Memory &memory, Registers &registers){
     return opcode;
 }
 
-void CLS(){
-
+void CLS(Screen &screen){
+    screen.clear();
 }
 
 void RET(Registers &registers, Memory &memory){
@@ -234,7 +234,7 @@ void Interpreter::executeInstruction(uint16_t opcode){
                 RET(registers, memory);
             }else if(opcode == 0x00E0){
                 // CLS
-                CLS();
+                CLS(screen);
             }else{
                 // OEXE
             }
