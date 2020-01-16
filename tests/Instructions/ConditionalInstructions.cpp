@@ -3,7 +3,7 @@
 #include <boost/test/data/test_case.hpp>
 #include <boost/test/data/monomorphic.hpp>
 
-#include "../src/System/Interpreter.h"
+#include "../../src/System/Interpreter.h"
 
 // Alias namespace to bdata
 namespace bdata = boost::unit_test::data;

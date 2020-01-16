@@ -3,7 +3,7 @@
 #include <boost/test/data/test_case.hpp>
 #include <boost/test/data/monomorphic.hpp>
 
-#include "../src/System/Interpreter.h"
+#include "../../src/System/Interpreter.h"
 
 // Alias namespace to bdata
 namespace bdata = boost::unit_test::data;
@@ -164,31 +164,86 @@ BOOST_DATA_TEST_CASE_F(Fixture, BCDTests, BCD_DATA, opcode, address, registerX, 
 /**
  * STRM Instruction
  *
- * STRM instruction will set the next three values in memory
- * starting at the memory address register to have the decimal
- * digits of the given register.
+ * STRM instruction will store the values in registers
+ * V0 - VX into the memory starting at address I.
  *
  * This test checks the following:
- * - The three digits are properly stored in memory
+ * - The values in the registers are appropriately stored
+ *   in memory
  **/
-BOOST_DATA_TEST_CASE_F(Fixture, STRMTest1){
+BOOST_FIXTURE_TEST_CASE(STRMTest1, Fixture){
+    uint16_t opcode = 0xF755;
     // Set the opcode
     interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
     interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
-    // Set the address register
-    interpreter.registers.I = address;
+    // Set registers 0 - 7
+    interpreter.registers.V[0] = 0x24;
+    interpreter.registers.V[1] = 0x00;
+    interpreter.registers.V[2] = 0x80;
+    interpreter.registers.V[3] = 0xBE;
+    interpreter.registers.V[4] = 0x68;
+    interpreter.registers.V[5] = 0xD1;
+    interpreter.registers.V[6] = 0x69;
+    interpreter.registers.V[7] = 0xCC;
 
-    // Set the register value
-    interpreter.registers.V[registerX] = immediate;
+    interpreter.registers.I = 0xCEF;
 
     // Tick the interpreter
     interpreter.tick();
 
     // Check that the digits are stored in memory
-    BOOST_TEST(interpreter.memory[interpreter.registers.I+0] == digit1);
-    BOOST_TEST(interpreter.memory[interpreter.registers.I+1] == digit2);
-    BOOST_TEST(interpreter.memory[interpreter.registers.I+2] == digit3);
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+0] == 0x24);
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+1] == 0x00);
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+2] == 0x80);
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+3] == 0xBE);
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+4] == 0x68);
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+5] == 0xD1);
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+6] == 0x69);
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+7] == 0xCC);
+}
+
+/**
+ * LDM Instruction
+ *
+ * LDM instruction will load values into registers
+ * V0 - VX from memory starting at address I.
+ *
+ * This test checks the following:
+ * - The values in the registers are appropriately loaded
+ *   from memory
+ **/
+BOOST_FIXTURE_TEST_CASE(LDMTest1, Fixture){
+    uint16_t opcode = 0xF765;
+    // Set the opcode
+    interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
+    interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
+
+    // Set the memory register
+    interpreter.registers.I = 0xCEF;
+    
+    // Set the memory values
+    interpreter.memory[interpreter.registers.I+0] = 0x24;
+    interpreter.memory[interpreter.registers.I+1] = 0x00;
+    interpreter.memory[interpreter.registers.I+2] = 0x80;
+    interpreter.memory[interpreter.registers.I+3] = 0xBE;
+    interpreter.memory[interpreter.registers.I+4] = 0x68;
+    interpreter.memory[interpreter.registers.I+5] = 0xD1;
+    interpreter.memory[interpreter.registers.I+6] = 0x69;
+    interpreter.memory[interpreter.registers.I+7] = 0xCC;
+
+    // Tick the interpreter
+    interpreter.tick();
+    
+    // Set registers 0 - 7
+    BOOST_TEST(interpreter.registers.V[0] == 0x24);
+    BOOST_TEST(interpreter.registers.V[1] == 0x00);
+    BOOST_TEST(interpreter.registers.V[2] == 0x80);
+    BOOST_TEST(interpreter.registers.V[3] == 0xBE);
+    BOOST_TEST(interpreter.registers.V[4] == 0x68);
+    BOOST_TEST(interpreter.registers.V[5] == 0xD1);
+    BOOST_TEST(interpreter.registers.V[6] == 0x69);
+    BOOST_TEST(interpreter.registers.V[7] == 0xCC);
 }
 
 BOOST_AUTO_TEST_SUITE_END();
