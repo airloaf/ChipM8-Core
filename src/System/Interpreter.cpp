@@ -12,6 +12,9 @@ Interpreter::Interpreter(){
         registers.V[registerNumber] = 0;
     }
 
+    // Set the screen to all clear
+    screen.clear();
+
     registers.DT = 0;
     registers.ST = 0;
 }

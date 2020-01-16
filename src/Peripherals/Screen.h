@@ -28,6 +28,12 @@ class Screen{
          **/
         bool getPixel(uint8_t row, uint8_t col);
 
+        /**
+         * Clears the screen, sets all the screen
+         * pixels to off/false
+         **/
+        void clear();
+
     private:
         bool pixels[32][64]; // The 32 x 64 monochrome screen
 
