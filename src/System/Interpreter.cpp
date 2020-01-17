@@ -1,5 +1,136 @@
 #include "Interpreter.h"
 
+void setHexDigits(Memory &memory){
+
+    int hexDigit = 0;
+    uint16_t addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0xF0;
+    memory[1 + addressOffset] = 0x90;
+    memory[2 + addressOffset] = 0x90;
+    memory[3 + addressOffset] = 0x90;
+    memory[4 + addressOffset] = 0xF0;
+
+    hexDigit = 1;
+    addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0x20;
+    memory[1 + addressOffset] = 0x60;
+    memory[2 + addressOffset] = 0x20;
+    memory[3 + addressOffset] = 0x20;
+    memory[4 + addressOffset] = 0x70;
+    
+    hexDigit = 2;
+    addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0xF0;
+    memory[1 + addressOffset] = 0x10;
+    memory[2 + addressOffset] = 0xF0;
+    memory[3 + addressOffset] = 0x80;
+    memory[4 + addressOffset] = 0xF0;
+    
+    hexDigit = 3;
+    addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0xF0;
+    memory[1 + addressOffset] = 0x10;
+    memory[2 + addressOffset] = 0xF0;
+    memory[3 + addressOffset] = 0x10;
+    memory[4 + addressOffset] = 0xF0;
+    
+    hexDigit = 4;
+    addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0x90;
+    memory[1 + addressOffset] = 0x90;
+    memory[2 + addressOffset] = 0xF0;
+    memory[3 + addressOffset] = 0x10;
+    memory[4 + addressOffset] = 0x10;
+    
+    hexDigit = 5;
+    addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0xF0;
+    memory[1 + addressOffset] = 0x80;
+    memory[2 + addressOffset] = 0xF0;
+    memory[3 + addressOffset] = 0x10;
+    memory[4 + addressOffset] = 0xF0;
+
+    hexDigit = 6;
+    addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0xF0;
+    memory[1 + addressOffset] = 0x80;
+    memory[2 + addressOffset] = 0xF0;
+    memory[3 + addressOffset] = 0x90;
+    memory[4 + addressOffset] = 0xF0;
+    
+    hexDigit = 7;
+    addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0xF0;
+    memory[1 + addressOffset] = 0x10;
+    memory[2 + addressOffset] = 0x20;
+    memory[3 + addressOffset] = 0x40;
+    memory[4 + addressOffset] = 0x40;
+    
+    hexDigit = 8;
+    addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0xF0;
+    memory[1 + addressOffset] = 0x90;
+    memory[2 + addressOffset] = 0xF0;
+    memory[3 + addressOffset] = 0x90;
+    memory[4 + addressOffset] = 0xF0;
+    
+    hexDigit = 9;
+    addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0xF0;
+    memory[1 + addressOffset] = 0x90;
+    memory[2 + addressOffset] = 0xF0;
+    memory[3 + addressOffset] = 0x10;
+    memory[4 + addressOffset] = 0xF0;
+    
+    hexDigit = 0xA;
+    addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0xF0;
+    memory[1 + addressOffset] = 0x90;
+    memory[2 + addressOffset] = 0xF0;
+    memory[3 + addressOffset] = 0x90;
+    memory[4 + addressOffset] = 0x90;
+    
+    hexDigit = 0xB;
+    addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0xE0;
+    memory[1 + addressOffset] = 0x90;
+    memory[2 + addressOffset] = 0xE0;
+    memory[3 + addressOffset] = 0x90;
+    memory[4 + addressOffset] = 0xE0;
+    
+    hexDigit = 0xC;
+    addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0xF0;
+    memory[1 + addressOffset] = 0x80;
+    memory[2 + addressOffset] = 0x80;
+    memory[3 + addressOffset] = 0x80;
+    memory[4 + addressOffset] = 0xF0;
+    
+    hexDigit = 0xD;
+    addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0xE0;
+    memory[1 + addressOffset] = 0x90;
+    memory[2 + addressOffset] = 0x90;
+    memory[3 + addressOffset] = 0x90;
+    memory[4 + addressOffset] = 0xE0;
+    
+    hexDigit = 0xE;
+    addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0xF0;
+    memory[1 + addressOffset] = 0x80;
+    memory[2 + addressOffset] = 0xF0;
+    memory[3 + addressOffset] = 0x80;
+    memory[4 + addressOffset] = 0xF0;
+    
+    hexDigit = 0xF;
+    addressOffset = hexDigit * 5;
+    memory[0 + addressOffset] = 0xF0;
+    memory[1 + addressOffset] = 0x80;
+    memory[2 + addressOffset] = 0xF0;
+    memory[3 + addressOffset] = 0x80;
+    memory[4 + addressOffset] = 0x80;
+}
+
 Interpreter::Interpreter(){
     // The program counter should start at 0x200
     registers.PC = 0x200;
@@ -17,6 +148,8 @@ Interpreter::Interpreter(){
 
     registers.DT = 0;
     registers.ST = 0;
+
+    setHexDigits(memory);
 }
 
 Interpreter::~Interpreter(){
@@ -147,7 +280,40 @@ void RND(){
 
 }
 
-void DRAW(){
+void DRAW(Registers &registers, Memory &memory, Screen &screen, uint8_t registerX, uint8_t registerY, uint8_t nibble){
+
+    // Get the row and column
+    uint8_t row = registers.V[registerX];
+    uint8_t col = registers.V[registerY];
+
+    registers.V[0xF] = 0;
+
+    // Go to each of the graphic bytes
+    for(std::size_t byte = 0; byte < nibble; byte++){
+
+        // Get sprite data
+        uint8_t data = memory[registers.I + byte];
+
+        // Iterate through each of the pixels
+        for(std::size_t pixel = 0; pixel < 8; pixel++){
+            // Calculate the column and row
+            int realRow = (row+byte) % 32;
+            int realCol = (col + (7-pixel)) % 64;
+
+            // Get the sprite pixel
+            int spritePixel = (data & 0x01) != 0;
+            // Shift the data by 1 pixel
+            data = data >> 1;
+            int previousData = screen.getPixel(realRow, realCol)? 1: 0;
+
+            int xord = spritePixel ^ previousData;
+            if(spritePixel != 0 && previousData != 0){
+                registers.V[0xF] = 1;
+            }
+            
+            screen.setPixel(realRow, realCol, (xord != 0));
+        }
+    } 
 
 }
 
@@ -325,7 +491,7 @@ void Interpreter::executeInstruction(uint16_t opcode){
             break;
         case 0xD:
             // DRAW
-            DRAW();
+            DRAW(registers, memory, screen, registerX, registerY, nibble);
             break;
         case 0xE:
             if(fourthHexit == 0xE){

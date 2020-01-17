@@ -164,7 +164,7 @@ BOOST_FIXTURE_TEST_CASE(DRAWTestSimple2, FilledScreen){
 
     for(int row = 0; row < 5; row++){
         for(int col = 0; col < 4; col++){
-            BOOST_TEST(interpreter.screen.getPixel(20 + row, col + 4));
+            BOOST_TEST(interpreter.screen.getPixel(20 + row, col + 5));
         }
     }
 }
