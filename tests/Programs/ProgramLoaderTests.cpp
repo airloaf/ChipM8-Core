@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE(TestProgramLoading){
     Interpreter interpreter;
 
     // Load the program in the data folder
-    interpreter.loadProgram("../Data/TestLoader.ch8");
+    interpreter.loadProgram("tests/Data/TestLoader.ch8");
 
     // Test certain memory values
     BOOST_TEST(interpreter.memory[0x200] == 0x80);

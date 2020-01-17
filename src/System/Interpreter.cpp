@@ -1,5 +1,8 @@
 #include "Interpreter.h"
 
+#include <fstream>
+#include <iostream>
+
 void setHexDigits(Memory &memory){
 
     int hexDigit = 0;
@@ -568,5 +571,17 @@ bool Interpreter::hasExecutionHalted(){
 }
 
 void Interpreter::loadProgram(std::string programPath){
+    // Load the file in binary mode
+    std::ifstream programFile(programPath, std::ios_base::binary);
 
+    // Create a program counter set to PC
+    std::size_t tempPC = registers.PC;
+
+    // Write the data to memory
+    while(programFile.good()){
+        memory[tempPC++] = (uint8_t) programFile.get();
+    }
+
+    // Close the file
+    programFile.close();
 }
