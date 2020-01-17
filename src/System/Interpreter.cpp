@@ -566,3 +566,7 @@ void Interpreter::tickTimers(){
 bool Interpreter::hasExecutionHalted(){
     return input.isWaiting();
 }
+
+void Interpreter::loadProgram(std::string programPath){
+
+}

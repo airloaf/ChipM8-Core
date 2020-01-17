@@ -5,6 +5,8 @@
 #include "Memory.h"
 #include "Registers.h"
 
+#include <string>
+
 /**
  * "Interpreter" for Chip8
  *
@@ -45,6 +47,13 @@ class Interpreter{
          * currently halted, waiting for input.
          **/
         bool hasExecutionHalted();
+
+        /**
+         * Loads the program from the given program path
+         * 
+         * @param programPath - the program path
+         **/
+        void loadProgram(std::string programPath);
 
         Input input; // The input for the interpreter
         Memory memory; // Memory for Chip8. (4KB)
