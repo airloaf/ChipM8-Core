@@ -3,7 +3,7 @@
 #include <boost/test/data/test_case.hpp>
 #include <boost/test/data/monomorphic.hpp>
 
-#include "../../src/System/Interpreter.h"
+#include <ChipM8/System/Interpreter.h>
 
 #include <vector>
 

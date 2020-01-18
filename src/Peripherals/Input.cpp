@@ -1,4 +1,4 @@
-#include "Input.h"
+#include <ChipM8/Peripherals/Input.h>
 
 Input::Input(){
     for(uint8_t key = 0; key < 16; key++){

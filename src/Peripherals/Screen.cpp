@@ -1,4 +1,4 @@
-#include "Screen.h"
+#include <ChipM8/Peripherals/Screen.h>
 
 #include <cstddef>
 

@@ -1,4 +1,4 @@
-#include "Interpreter.h"
+#include <ChipM8/System/Interpreter.h>
 
 #include <fstream>
 #include <iostream>
