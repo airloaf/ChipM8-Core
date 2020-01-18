@@ -3,20 +3,22 @@ CC := g++
 CHIPM8_INCLUDE := include
 BOOST_LIBRARY := libs/boost_1_72_0
 
+CFLAGS := -g -Wall -Werror
+
 SRC := $(wildcard src/*.cpp) $(wildcard src/*/*.cpp)
 
 OBJS := $(SRC:.cpp=.o)
 
 TESTS_SRC := $(wildcard tests/*.cpp) $(wildcard tests/*/*.cpp)
 
-bin/Chip8.a: ${OBJS}
+bin/ChipM8.a: ${OBJS}
 	ar rvs $@ $^
 
 %.o: %.cpp
-	$(CC) -I ${CHIPM8_INCLUDE} -c $^ -o $@
+	$(CC) -I ${CHIPM8_INCLUDE} ${CFLAGS} -c $^ -o $@
 
 
-test: ${TESTS_SRC} bin/Chip8.a
+test: ${TESTS_SRC} bin/ChipM8.a
 	$(CC) -I ${BOOST_LIBRARY} -I ${CHIPM8_INCLUDE} $^ -o $@
 	./test
 
