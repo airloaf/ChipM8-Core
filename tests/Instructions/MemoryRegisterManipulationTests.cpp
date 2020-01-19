@@ -177,7 +177,7 @@ BOOST_FIXTURE_TEST_CASE(STRMTest1, Fixture){
     interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
     interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
-    // Set registers 0 - 7
+    // Set registers 0 - 15
     interpreter.registers.V[0] = 0x24;
     interpreter.registers.V[1] = 0x00;
     interpreter.registers.V[2] = 0x80;
@@ -186,13 +186,21 @@ BOOST_FIXTURE_TEST_CASE(STRMTest1, Fixture){
     interpreter.registers.V[5] = 0xD1;
     interpreter.registers.V[6] = 0x69;
     interpreter.registers.V[7] = 0xCC;
+    interpreter.registers.V[8] = 0x24;
+    interpreter.registers.V[9] = 0x00;
+    interpreter.registers.V[10] = 0x80;
+    interpreter.registers.V[11] = 0xBE;
+    interpreter.registers.V[12] = 0x68;
+    interpreter.registers.V[13] = 0xD1;
+    interpreter.registers.V[14] = 0x69;
+    interpreter.registers.V[15] = 0xCC;
 
     interpreter.registers.I = 0xCEF;
 
     // Tick the interpreter
     interpreter.tick();
 
-    // Check that the digits are stored in memory
+    // Check that registers 0 - 7 were stored in memory
     BOOST_TEST(interpreter.memory[interpreter.registers.I+0] == 0x24);
     BOOST_TEST(interpreter.memory[interpreter.registers.I+1] == 0x00);
     BOOST_TEST(interpreter.memory[interpreter.registers.I+2] == 0x80);
@@ -201,6 +209,16 @@ BOOST_FIXTURE_TEST_CASE(STRMTest1, Fixture){
     BOOST_TEST(interpreter.memory[interpreter.registers.I+5] == 0xD1);
     BOOST_TEST(interpreter.memory[interpreter.registers.I+6] == 0x69);
     BOOST_TEST(interpreter.memory[interpreter.registers.I+7] == 0xCC);
+    
+    // Check that registers 8 - 15 were not stored in memory
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+8] == 0x00);
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+9] == 0x00);
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+10] == 0x00);
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+11] == 0x00);
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+12] == 0x00);
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+13] == 0x00);
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+14] == 0x00);
+    BOOST_TEST(interpreter.memory[interpreter.registers.I+15] == 0x00);
 }
 
 /**
@@ -231,6 +249,14 @@ BOOST_FIXTURE_TEST_CASE(LDMTest1, Fixture){
     interpreter.memory[interpreter.registers.I+5] = 0xD1;
     interpreter.memory[interpreter.registers.I+6] = 0x69;
     interpreter.memory[interpreter.registers.I+7] = 0xCC;
+    interpreter.memory[interpreter.registers.I+8] = 0x24;
+    interpreter.memory[interpreter.registers.I+9] = 0x00;
+    interpreter.memory[interpreter.registers.I+10] = 0x80;
+    interpreter.memory[interpreter.registers.I+11] = 0xBE;
+    interpreter.memory[interpreter.registers.I+12] = 0x68;
+    interpreter.memory[interpreter.registers.I+13] = 0xD1;
+    interpreter.memory[interpreter.registers.I+14] = 0x69;
+    interpreter.memory[interpreter.registers.I+15] = 0xCC;
 
     // Tick the interpreter
     interpreter.tick();
@@ -244,6 +270,17 @@ BOOST_FIXTURE_TEST_CASE(LDMTest1, Fixture){
     BOOST_TEST(interpreter.registers.V[5] == 0xD1);
     BOOST_TEST(interpreter.registers.V[6] == 0x69);
     BOOST_TEST(interpreter.registers.V[7] == 0xCC);
+
+    // Test that registers 8-F have not been manipulated
+    BOOST_TEST(interpreter.registers.V[8] == 0x00);
+    BOOST_TEST(interpreter.registers.V[9] == 0x00);
+    BOOST_TEST(interpreter.registers.V[0xA] == 0x00);
+    BOOST_TEST(interpreter.registers.V[0xB] == 0x00);
+    BOOST_TEST(interpreter.registers.V[0xC] == 0x00);
+    BOOST_TEST(interpreter.registers.V[0xD] == 0x00);
+    BOOST_TEST(interpreter.registers.V[0xE] == 0x00);
+    BOOST_TEST(interpreter.registers.V[0xF] == 0x00);
+
 }
 
 BOOST_AUTO_TEST_SUITE_END();

@@ -383,13 +383,13 @@ void BCD(Registers &registers, Memory &memory, uint8_t registerX){
 }
 
 void STRM(Registers &registers, Memory &memory, uint8_t registerX){
-    for(std::size_t registerNum = 0; registerNum < 16; registerNum++){
+    for(std::size_t registerNum = 0; (uint8_t) registerNum < (registerX+1); registerNum++){
         memory[registers.I + registerNum] = registers.V[registerNum];
     }
 }
 
 void LDM(Registers &registers, Memory &memory, uint8_t registerX){
-    for(std::size_t registerNum = 0; registerNum < 16; registerNum++){
+    for(std::size_t registerNum = 0; (uint8_t) registerNum < (registerX+1); registerNum++){
         registers.V[registerNum] = memory[registers.I + registerNum];
     }
 }
