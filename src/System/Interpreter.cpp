@@ -286,8 +286,8 @@ void RND(){
 void DRAW(Registers &registers, Memory &memory, Screen &screen, uint8_t registerX, uint8_t registerY, uint8_t nibble){
 
     // Get the row and column
-    uint8_t row = registers.V[registerX];
-    uint8_t col = registers.V[registerY];
+    uint8_t col = registers.V[registerX];
+    uint8_t row = registers.V[registerY];
 
     registers.V[0xF] = 0;
 
