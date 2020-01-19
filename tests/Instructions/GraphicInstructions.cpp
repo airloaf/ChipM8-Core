@@ -111,8 +111,8 @@ BOOST_FIXTURE_TEST_CASE(DRAWTestSimple, BlankScreen){
     interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
     interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
-    interpreter.registers.V[0] = 7;
-    interpreter.registers.V[1] = 9;
+    interpreter.registers.V[0] = 9;
+    interpreter.registers.V[1] = 7;
 
     interpreter.registers.I = 0x5;
 
@@ -146,8 +146,8 @@ BOOST_FIXTURE_TEST_CASE(DRAWTestSimple2, FilledScreen){
     interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
     interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
-    interpreter.registers.V[0] = 20;
-    interpreter.registers.V[1] = 1;
+    interpreter.registers.V[0] = 1;
+    interpreter.registers.V[1] = 20;
 
     interpreter.registers.I = 0x0;
 
@@ -185,8 +185,8 @@ BOOST_FIXTURE_TEST_CASE(DRAWTestSimple3, BlankScreen){
     interpreter.memory[0x200] = (opcode & 0xFF00) >> 8;
     interpreter.memory[0x201] = (opcode & 0x00FF) >> 0;
 
-    interpreter.registers.V[0] = 30;
-    interpreter.registers.V[1] = 62;
+    interpreter.registers.V[0] = 62;
+    interpreter.registers.V[1] = 30;
 
     interpreter.registers.I = 0x23;
 
