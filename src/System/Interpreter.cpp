@@ -563,7 +563,15 @@ void Interpreter::tick(){
 }
 
 void Interpreter::tickTimers(){
-    
+   
+    if(registers.DT > 0){
+        registers.DT--;
+    }
+
+    if(registers.ST > 0){
+        registers.ST--;
+    }
+
 }
 
 bool Interpreter::hasExecutionHalted(){
