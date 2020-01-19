@@ -3,6 +3,9 @@
 #include <fstream>
 #include <iostream>
 
+#include <stdlib.h>
+#include <time.h>
+
 void setHexDigits(Memory &memory){
 
     int hexDigit = 0;
@@ -153,6 +156,9 @@ Interpreter::Interpreter(){
     registers.ST = 0;
 
     setHexDigits(memory);
+
+    // Set the random seed
+    srand(time(nullptr));
 }
 
 Interpreter::~Interpreter(){
@@ -279,8 +285,13 @@ void BR(Registers &registers, uint16_t address){
     registers.PC = ((address + registers.V[0]) % 0x1000);
 }
 
-void RND(){
+void RND(Registers &registers, uint8_t registerX, uint8_t immediate){
+    
+    // Generate a random number with that can fit in one byte register
+    uint8_t randomValue = rand() % 0x100;
 
+    // Set registerX to be the random value AND'd with the immediate mask
+    registers.V[registerX] = randomValue & immediate;
 }
 
 void DRAW(Registers &registers, Memory &memory, Screen &screen, uint8_t registerX, uint8_t registerY, uint8_t nibble){
@@ -490,7 +501,7 @@ void Interpreter::executeInstruction(uint16_t opcode){
             break;
         case 0xC:
             // RND
-            RND();
+            RND(registers, registerX, immediate);
             break;
         case 0xD:
             // DRAW
