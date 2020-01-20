@@ -14,8 +14,9 @@ bool Input::isKeyPressed(uint8_t key){
 void Input::setKeyPressed(uint8_t key, bool pressed){
     keys[key] = pressed;
     // If the input was waiting, set the key
-    if(waiting){
+    if(waiting && pressed){
         registers->V[waitedRegister] = key;
+        waiting = false;
     }
 }
 
