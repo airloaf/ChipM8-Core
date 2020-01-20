@@ -252,7 +252,7 @@ void ADD(Registers &registers, uint8_t registerX, uint8_t registerY){
 void SUB(Registers &registers, uint8_t registerX, uint8_t registerY){
     int result = registers.V[registerX] - registers.V[registerY];
     registers.V[registerX] = result;
-    registers.V[0xF] = (result >= 0)? 0: 1;
+    registers.V[0xF] = (result >= 0)? 1: 0;
 }
 
 void RSH(Registers &registers, uint8_t registerX, uint8_t registerY){
@@ -263,7 +263,7 @@ void RSH(Registers &registers, uint8_t registerX, uint8_t registerY){
 void SUBR(Registers &registers, uint8_t registerX, uint8_t registerY){
     int result = registers.V[registerY] - registers.V[registerX];
     registers.V[registerX] = result;
-    registers.V[0xF] = (result >= 0)? 0: 1;
+    registers.V[0xF] = (result >= 0)? 1: 0;
 }
 
 void LSH(Registers &registers, uint8_t registerX, uint8_t registerY){

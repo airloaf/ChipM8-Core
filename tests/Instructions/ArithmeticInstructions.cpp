@@ -234,7 +234,7 @@ static auto SUB_RegisterY =        bdata::make({0x0E, 0x0C, 0x02, 0x0E, 0x03});
 static auto SUB_RegisterXValue =   bdata::make({0x23, 0xFF, 0x00, 0xF2, 0x59});
 static auto SUB_RegisterYValue =   bdata::make({0x00, 0x49, 0x39, 0xE4, 0xCC});
 static auto SUB_Expected =         bdata::make({0x23, 0xB6, 0xC7, 0x0E, 0x8D});
-static auto SUB_Flag =             bdata::make({0x00, 0x00, 0x01, 0x00, 0x01});
+static auto SUB_Flag =             bdata::make({0x01, 0x01, 0x00, 0x01, 0x00});
 
 // SUB Data
 static auto SUB_DATA = SUB_Opcode ^ SUB_RegisterX ^ SUB_RegisterY ^ SUB_RegisterXValue ^ SUB_RegisterYValue ^ SUB_Expected ^ SUB_Flag;
@@ -308,7 +308,7 @@ static auto SUBR_RegisterY =        bdata::make({0x0E, 0x0C, 0x02, 0x0E, 0x03});
 static auto SUBR_RegisterXValue =   bdata::make({0x23, 0xFF, 0x00, 0xF2, 0x59});
 static auto SUBR_RegisterYValue =   bdata::make({0x00, 0x49, 0x39, 0xE4, 0xCC});
 static auto SUBR_Expected =         bdata::make({0xDD, 0x4A, 0x39, 0xF2, 0x73});
-static auto SUBR_Flag =             bdata::make({0x01, 0x01, 0x00, 0x01, 0x00});
+static auto SUBR_Flag =             bdata::make({0x00, 0x00, 0x01, 0x00, 0x01});
 
 // SUBR Data
 static auto SUBR_DATA = SUBR_Opcode ^ SUBR_RegisterX ^ SUBR_RegisterY ^ SUBR_RegisterXValue ^ SUBR_RegisterYValue ^ SUBR_Expected ^ SUBR_Flag;
