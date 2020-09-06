@@ -5,7 +5,6 @@ set(LIB_TYPE SHARED)
 
 # Development Library Paths
 set(INCLUDE_DIR C:/DevelopmentLibraries/include/)
-set(LIB_DIR C:/DevelopmentLibraries/lib/x64/)
 
 project(ChipM8_Project)
 
