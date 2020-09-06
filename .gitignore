@@ -49,3 +49,4 @@ test
 # VScode
 .vscode/
 build/
+docs/Doxyfile_cmake
